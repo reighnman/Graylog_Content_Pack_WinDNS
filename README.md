@@ -10,3 +10,7 @@
 
 * Windows DNS server configured for "Log packets for debugging" & "Packet direction: Incoming"
 * A GELF supported log exporter/collector such as nxlog or Graylog Collector monitoring the log file path
+
+## Screenshots
+
+(http://i0.wp.com/www.ohjeah.net/wp-content/uploads/2015/09/windows_dns_logs.png)
