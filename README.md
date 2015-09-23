@@ -1,4 +1,4 @@
-# Graylog Web Interface
+# Windows DNS Logs
 ## Includes
 
 * Input (GELF udp 5414)
