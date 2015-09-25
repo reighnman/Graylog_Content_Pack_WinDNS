@@ -1,4 +1,4 @@
-# Windows DNS Logs
+# Windows DNS Content Pack
 ## Includes
 
 * Input (GELF udp 5414)
