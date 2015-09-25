@@ -1,4 +1,7 @@
 # Windows DNS Content Pack
+
+Tested with nxLog/Graylog 1.2
+
 ## Includes
 
 * Input (GELF udp 5414)
