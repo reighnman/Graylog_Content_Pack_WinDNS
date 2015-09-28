@@ -28,10 +28,6 @@ LogFile %ROOT%\data\nxlog.log
     Module xm_gelf
 </Extension>
 
-<Route 1>
-    Path        in => out
-</Route>
-
 <Input dns>
     Module  im_file
     File  "C:\dns.txt"
