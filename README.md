@@ -13,7 +13,7 @@ Tested with nxLog/Windows 2008 R2/Graylog 1.2
 
 * Windows DNS server configured for "Log packets for debugging" & "Packet direction: Incoming"
 * A GELF supported log exporter/collector such as nxlog or Graylog Collector monitoring the log file path
-* create a ES template to hard set the ThreadID field type to "String", otherwise ES may dynamically map the field type to INT and you'll get indexing errors later on when an alphanumeric ThreadID comes around.
+* Create an ES template to force the ThreadID field type to "String", otherwise ES may dynamically map the field type as INT which would cause indexing errors later on when an alphanumeric ThreadID comes around.
 
 ```
 curl -XPUT localhost:9200/_template/graylog -d '
