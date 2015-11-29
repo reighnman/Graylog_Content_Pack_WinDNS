@@ -1,6 +1,6 @@
 # Windows DNS Content Pack
 
-Tested with nxLog/Graylog 1.2
+Tested with nxLog/Windows 2008 R2/Graylog 1.2
 
 ## Includes
 
