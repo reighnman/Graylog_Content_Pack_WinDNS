@@ -1,5 +1,7 @@
 # Windows DNS Content Pack
 
+This version requires Graylog 1.3 minimum, check branches for previous versions.
+
 (Tested with nxLog/Windows 2008 R2/Graylog 1.3)
 
 ## Includes
