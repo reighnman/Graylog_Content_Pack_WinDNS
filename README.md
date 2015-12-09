@@ -1,10 +1,5 @@
 # Windows DNS Content Pack
 
-##Requirements: 
-
-* Graylog 1.3
-* GELF Capable Log Shipper
-
 (Tested with nxLog/Windows 2008 R2/Graylog 1.3)
 
 ## Includes
@@ -15,9 +10,9 @@
 * Dashboard (WinDNS Summary)
 
 ## Requirements
-
+* Graylog 1.3  (due to REPLACE extractor)
 * Windows DNS server configured for "Log packets for debugging" & "Packet direction: Incoming"
-* A GELF supported log exporter/collector such as nxlog or Graylog Collector monitoring the log file path
+* A GELF capable log exporter/collector such as nxlog or Graylog Collector monitoring the log file path
 * Create an ES template to force the ThreadID field type to "String", otherwise ES may dynamically map the field type as INT which would cause indexing errors later on when an alphanumeric ThreadID comes around.
 
 ```
