@@ -26,6 +26,21 @@
       "source_field" : "full_message",
       "condition_type" : "REGEX",
       "condition_value" : " PACKET\\s+[A-Z0-9]{16}\\s+UDP|TCP\\s"
+    }, {
+      "title" : "WinDNS_Name",
+      "type" : "REGEX_REPLACE",
+      "configuration" : {
+        "regex" : "\\([0-9]+\\)",
+        "replacement" : ".",
+        "replace_all" : true
+      },
+      "converters" : [ ],
+      "order" : 0,
+      "cursor_strategy" : "CUT",
+      "target_field" : "Name",
+      "source_field" : "Name",
+      "condition_type" : "REGEX",
+      "condition_value" : "\\([0-9]+\\)"
     } ],
     "static_fields" : { }
   } ],
