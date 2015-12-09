@@ -1,6 +1,11 @@
 # Windows DNS Content Pack
 
-Tested with nxLog/Windows 2008 R2/Graylog 1.2.2
+##Requirements: 
+
+* Graylog 1.3
+* GELF Capable Log Shipper
+
+(Tested with nxLog/Windows 2008 R2/Graylog 1.3)
 
 ## Includes
 
