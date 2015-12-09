@@ -4,8 +4,8 @@
 
 ## Includes
 
-* Input (GELF udp 5414)
-* Extractor (WinDNS_Debug_Log)
+* Input (WinLogs-gelf - GELF/UDP/5414)
+* Extractors (WinDNS_Debug_Log, WinDNS_Name)
 * GROK Patterns
 * Dashboard (WinDNS Summary)
 
