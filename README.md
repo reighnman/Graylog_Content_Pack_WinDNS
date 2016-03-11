@@ -47,6 +47,7 @@ LogFile %ROOT%\data\nxlog.log
 
 <Extension gelf>
     Module xm_gelf
+    ShortMessageLength -1
 </Extension>
 
 <Input dns>
