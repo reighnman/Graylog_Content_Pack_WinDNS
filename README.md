@@ -4,6 +4,8 @@ This version requires Graylog 1.3 minimum, check branches for previous versions.
 
 (Tested with nxLog/Windows 2008 R2/Graylog 1.3)
 
+Newer versions of nxLog with Gelf 1.1 support require an additional parameter for the gelf module "ShortMessageLength -1"
+
 ## Includes
 
 * Input (WinLogs-gelf - GELF/UDP/5414)
