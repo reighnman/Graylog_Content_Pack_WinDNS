@@ -4,7 +4,7 @@ This version requires Graylog 3.1 minimum, check tags for previous versions.
 
 (Tested with Filebeats/Windows 2016 R2/Graylog 3.1)
 
-Note this was built using filebeats as the log exporter.  It is possible to use nxlog or alternatives but will require manually creating a GELF input and importing the extractors_standalone.json to the input.
+**Note this was built using filebeats as the log exporter.  It is possible to use your own input with nxlog or alternatives but will require manually importing the extractors_standalone.json to the input.**
 
 Newer versions of nxLog with Gelf 1.1 support require an additional parameter for the gelf module "ShortMessageLength -1"
 
