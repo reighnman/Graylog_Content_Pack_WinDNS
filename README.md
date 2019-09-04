@@ -1,24 +1,27 @@
 # Windows DNS Content Pack
 
-This version requires Graylog 1.3 minimum, check branches for previous versions.
+This version requires Graylog 3.1 minimum, check tags for previous versions.
 
-(Tested with nxLog/Windows 2008 R2/Graylog 1.3)
+(Tested with Filebeats/Windows 2016 R2/Graylog 3.1)
+
+Note this was built using filebeats as the log exporter.  It is possible to use nxlog or alternatives but will require manually creating a GELF input and importing the extractors_standalone.json to the input.
 
 Newer versions of nxLog with Gelf 1.1 support require an additional parameter for the gelf module "ShortMessageLength -1"
 
 ## Includes
 
-* Input (WinLogs-gelf - GELF/UDP/5414)
+* Input (TCP_WindDNS_1555 - Beats/TCP/1555)
 * Extractors (WinDNS_Debug_Log, WinDNS_Name)
-* GROK Patterns
-* Dashboard (WinDNS Summary)
+* GROK Patterns (prefixed with WINDNS to avoid override)
+* Dashboard (DNS requests (7d))
 
 ## Requirements
-* Graylog 1.3  (due to REPLACE extractor)
+* Graylog 3.1 
 * Windows DNS server configured for "Log packets for debugging" & "Packet direction: Incoming"
-* A GELF capable log exporter/collector such as nxlog or Graylog Collector monitoring the log file path
+* A log exporter/collector such as nxlog or filebeats monitoring the log file path (e.g. c:\temp\dns_log.txt)
 * Create an ES template to force the ThreadID field type to "String", otherwise ES may dynamically map the field type as INT which would cause indexing errors later on when an alphanumeric ThreadID comes around.
 
+For example in ES 5+:
 ```
 curl -XPUT localhost:9200/_template/graylog -d '
 {
@@ -30,13 +33,33 @@ curl -XPUT localhost:9200/_template/graylog -d '
       "message":{
         "properties":{
           "ThreadID":{
-            "index":"not_analyzed",
-            "type":"String"
+            "index":"true",
+            "type":"keyword"
           }
         }
       }
     }
 }'
+```
+
+## Filebeats/Sidecar Windows Configuration Example using variables ${user.dnslog_path} and ${user.graylog_server}
+```
+# Needed for Graylog
+fields_under_root: true
+fields.collector_node_id: ${sidecar.nodeName}
+fields.gl2_source_collector: ${sidecar.nodeId}
+
+filebeat.inputs:
+- input_type: log
+  paths:
+    - "${user.dnslog_path}"
+  encoding: utf-8
+  type: log
+output.logstash:
+   hosts: ["${user.graylog_server}:1555"]
+path:
+  data: "C:/Program Files/Graylog/sidecar/cache/winlogbeat/data"
+  logs: "C:/Program Files/Graylog/sidecar/logs"
 ```
 
 ## NXLog Configuration Example
