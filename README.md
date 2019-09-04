@@ -10,16 +10,15 @@ Newer versions of nxLog with Gelf 1.1 support require an additional parameter fo
 
 ## Includes
 
-* Input (TCP_WindDNS_1555 - Beats/TCP/1555)
-* Extractors (WinDNS_Debug_Log, WinDNS_Name)
+* Input (TCP_WindDNS_1555 - Beats/TCP/1555) w/ Extractors (WinDNS_Debug_Log, WinDNS_Name)
 * GROK Patterns (prefixed with WINDNS to avoid override)
-* Dashboard (DNS requests (7d))
+* Dashboards (DNS requests (24h), DNS requests (7d))
 
 ## Requirements
 * Graylog 3.1 
 * Windows DNS server configured for "Log packets for debugging" & "Packet direction: Incoming"
-* A log exporter/collector such as nxlog or filebeats monitoring the log file path (e.g. c:\temp\dns_log.txt)
-* Create an ES template to force the ThreadID field type to "String", otherwise ES may dynamically map the field type as INT which would cause indexing errors later on when an alphanumeric ThreadID comes around.
+* A log exporter/collector such as nxlog or filebeats monitoring the log file path specified in dns debug (e.g. c:\temp\dns_log.txt)
+* Create a dynamic ES template to force the ThreadID field type to "keyword", otherwise ES may dynamically map the field type as INT which would cause indexing errors later on when an alphanumeric ThreadID comes around.
 
 For example in ES 5+:
 ```
