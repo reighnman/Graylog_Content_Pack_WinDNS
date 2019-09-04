@@ -1,207 +1,1012 @@
 {
-  "id" : null,
-  "name" : "WinDNS Summary",
-  "description" : "Windows DNS Content Pack\r\n-Extractor\r\n-Dashboard\r\n-GROK Patterns\r\n\r\nRequires configuring Windows DNS to debug and setting up an exporter such as nxlog to export/output the log file to graylog via GELF on udp 5414.\r\n",
-  "category" : "DNS, Windows",
-  "inputs" : [ {
-    "title" : "WinLogs-gelf",
-    "configuration" : {
-      "port" : 5414,
-      "override_source" : "",
-      "bind_address" : "0.0.0.0",
-      "recv_buffer_size" : 1048576
+  "v": 1,
+  "id": "05e59f56-dac0-410a-910d-a422f013ab68",
+  "rev": 1,
+  "name": "Windows DNS",
+  "summary": "Windows DNS",
+  "description": "Windows DNS Input (example)\nWindows DNS GROK Patterns\nTotal Request DNS Dashboard\nWindows DNS Extractor (included in repo)",
+  "vendor": "Jared O. <jaredo@ameritech.net>",
+  "url": "http://www.ohjeah.net",
+  "parameters": [],
+  "entities": [
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "3bf7b255-f3da-447d-87f5-84026d311474",
+      "data": {
+        "name": "WINDNS_NOTSPACE",
+        "pattern": "\\S+"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
     },
-    "type" : "org.graylog2.inputs.gelf.udp.GELFUDPInput",
-    "global" : true,
-    "extractors" : [ {
-      "title" : "WinDNS_Debug_Log",
-      "type" : "GROK",
-      "configuration" : {
-        "grok_pattern" : "%{WINDNS_TIME:Time} +%{WINDNS_THREADID:ThreadID} +%{NOTSPACE:Context} +%{BASE16NUM:InternalID} +%{WINDNS_PROTOCOL:Protocol} +%{WINDNS_SNDRCV:SndRcv} +%{WINDNS_IP:IP} +%{WINDNS_XID:XID}%{WINDNS_QUERYRESP:QueryResp}%{WINDNS_OPCODE:Opcode} +\\[%{WINDNS_FLAGSHEX:FlagsHex}%{WINDNS_FLAGSCHAR:FlagsChar}%{WINDNS_RESPONSE:Response}\\]%{WINDNS_QTYPE:QType}%{WINDNS_NAME:Name}"
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
       },
-      "converters" : [ ],
-      "order" : 0,
-      "cursor_strategy" : "COPY",
-      "target_field" : "full_message",
-      "source_field" : "full_message",
-      "condition_type" : "REGEX",
-      "condition_value" : " PACKET\\s+[A-Z0-9]{16}\\s+UDP|TCP\\s"
-    }, {
-      "title" : "WinDNS_Name",
-      "type" : "REGEX_REPLACE",
-      "configuration" : {
-        "regex" : "\\([0-9]+\\)",
-        "replacement" : ".",
-        "replace_all" : true
+      "id": "9e6f7b59-63a1-4a63-af32-f6875f1721b0",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "TCP_WinDNS_1555"
+        },
+        "configuration": {
+          "tls_key_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 1555
+          },
+          "tls_enable": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 1048576
+          },
+          "tcp_keepalive": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "tls_client_auth_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "no_beats_prefix": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "tls_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "tls_client_auth": {
+            "@type": "string",
+            "@value": "disabled"
+          },
+          "tls_key_password": {
+            "@type": "string",
+            "@value": ""
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog.plugins.beats.Beats2Input"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": [
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "Name"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "\\([0-9]+\\)"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "regex": {
+                "@type": "string",
+                "@value": "\\([0-9]+\\)"
+              },
+              "replacement": {
+                "@type": "string",
+                "@value": "."
+              },
+              "replace_all": {
+                "@type": "boolean",
+                "@value": true
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "Name"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "WinDNS_Name"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX_REPLACE"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "CUT"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": ""
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": " PACKET\\s+[A-Z0-9]{16}\\s+UDP|TCP\\s"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "grok_pattern": {
+                "@type": "string",
+                "@value": "%{WINDNS_TIME:Time} +%{WINDNS_THREADID:ThreadID} +%{WINDNS_NOTSPACE:Context} +%{WINDNS_BASE16NUM:InternalID} +%{WINDNS_PROTOCOL:Protocol} +%{WINDNS_SNDRCV:SndRcv} +%{WINDNS_IP:IP} +%{WINDNS_XID:XID}%{WINDNS_QUERYRESP:QueryResp}%{WINDNS_OPCODE:Opcode} +\\[%{WINDNS_FLAGSHEX:FlagsHex}%{WINDNS_FLAGSCHAR:FlagsChar}%{WINDNS_RESPONSE:Response}\\]%{WINDNS_QTYPE:QType}%{WINDNS_NAME:Name}"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "WinDNS_Debug_Log"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "GROK"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "CUT"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          }
+        ]
       },
-      "converters" : [ ],
-      "order" : 0,
-      "cursor_strategy" : "CUT",
-      "target_field" : "Name",
-      "source_field" : "Name",
-      "condition_type" : "REGEX",
-      "condition_value" : "\\([0-9]+\\)"
-    } ],
-    "static_fields" : { }
-  } ],
-  "streams" : [ ],
-  "outputs" : [ ],
-  "dashboards" : [ {
-    "title" : "WinDNS Summary",
-    "description" : "WinDNS Summary",
-    "dashboard_widgets" : [ {
-      "description" : "Total DNS Requests (24hr)",
-      "type" : "SEARCH_RESULT_CHART",
-      "configuration" : {
-        "interval" : "minute",
-        "query" : "SourceModuleName:dns AND Context:PACKET",
-        "timerange" : {
-          "range" : 86400,
-          "type" : "relative"
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
         }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
       },
-      "col" : 1,
-      "row" : 1,
-      "cache_time" : 120
-    }, {
-      "description" : "Total DNS Requests (24hr)",
-      "type" : "SEARCH_RESULT_COUNT",
-      "configuration" : {
-        "trend" : true,
-        "query" : "SourceModuleName:dns AND Context:PACKET",
-        "timerange" : {
-          "range" : 86400,
-          "type" : "relative"
-        },
-        "lower_is_better" : false
+      "id": "7d8cb619-dfc7-467a-932f-77a55ee72ab8",
+      "data": {
+        "name": "WINDNS_OPCODE",
+        "pattern": "([A-Z]{1})"
       },
-      "col" : 3,
-      "row" : 1,
-      "cache_time" : 120
-    }, {
-      "description" : "Total Requests By Name",
-      "type" : "QUICKVALUES",
-      "configuration" : {
-        "field" : "Name",
-        "query" : "SourceModuleName:dns AND Context:PACKET",
-        "timerange" : {
-          "range" : 86400,
-          "type" : "relative"
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
         }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "dashboard",
+        "version": "1"
       },
-      "col" : 4,
-      "row" : 3,
-      "cache_time" : 120
-    }, {
-      "description" : "Total Requests By IP",
-      "type" : "QUICKVALUES",
-      "configuration" : {
-        "timerange" : {
-          "type" : "relative",
-          "range" : 86400
+      "id": "3b865567-3c69-423e-8c3a-014ab97e28d6",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "DNS Requests (7d)"
         },
-        "field" : "IP",
-        "show_pie_chart" : false,
-        "query" : "SourceModuleName:dns AND Context:PACKET",
-        "show_data_table" : true
-      },
-      "col" : 4,
-      "row" : 1,
-      "cache_time" : 120
-    }, {
-      "description" : "Total Requests By Server",
-      "type" : "QUICKVALUES",
-      "configuration" : {
-        "timerange" : {
-          "type" : "relative",
-          "range" : 86400
+        "description": {
+          "@type": "string",
+          "@value": "DNS Requests (7d)"
         },
-        "field" : "source",
-        "show_pie_chart" : true,
-        "query" : "SourceModuleName:dns AND Context:PACKET",
-        "show_data_table" : true
+        "widgets": [
+          {
+            "id": {
+              "@type": "string",
+              "@value": "88a4baf3-1841-4614-873a-8d5a53057217"
+            },
+            "description": {
+              "@type": "string",
+              "@value": "Total Requests By Response (7d)"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "QUICKVALUES"
+            },
+            "cache_time": {
+              "@type": "integer",
+              "@value": 10
+            },
+            "time_range": {
+              "type": {
+                "@type": "string",
+                "@value": "relative"
+              },
+              "range": {
+                "@type": "integer",
+                "@value": 604800
+              }
+            },
+            "configuration": {
+              "interval": {
+                "@type": "string",
+                "@value": "hour"
+              },
+              "query": {
+                "@type": "string",
+                "@value": "Context:PACKET"
+              },
+              "show_pie_chart": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "sort_order": {
+                "@type": "string",
+                "@value": "desc"
+              },
+              "timerange": {
+                "type": {
+                  "@type": "string",
+                  "@value": "relative"
+                },
+                "range": {
+                  "@type": "integer",
+                  "@value": 604800
+                }
+              },
+              "stacked_fields": {
+                "@type": "string",
+                "@value": ""
+              },
+              "data_table_limit": {
+                "@type": "integer",
+                "@value": 50
+              },
+              "field": {
+                "@type": "string",
+                "@value": "Response"
+              },
+              "show_data_table": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "limit": {
+                "@type": "integer",
+                "@value": 5
+              }
+            },
+            "position": {
+              "width": {
+                "@type": "integer",
+                "@value": 2
+              },
+              "height": {
+                "@type": "integer",
+                "@value": 6
+              },
+              "row": {
+                "@type": "integer",
+                "@value": 3
+              },
+              "col": {
+                "@type": "integer",
+                "@value": 1
+              }
+            }
+          },
+          {
+            "id": {
+              "@type": "string",
+              "@value": "adaeff04-5240-4776-840e-d36d62fcd014"
+            },
+            "description": {
+              "@type": "string",
+              "@value": "Total Requests By Type (7d)"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "QUICKVALUES"
+            },
+            "cache_time": {
+              "@type": "integer",
+              "@value": 10
+            },
+            "time_range": {
+              "type": {
+                "@type": "string",
+                "@value": "relative"
+              },
+              "range": {
+                "@type": "integer",
+                "@value": 604800
+              }
+            },
+            "configuration": {
+              "interval": {
+                "@type": "string",
+                "@value": "hour"
+              },
+              "query": {
+                "@type": "string",
+                "@value": "Context:PACKET"
+              },
+              "show_pie_chart": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "sort_order": {
+                "@type": "string",
+                "@value": "desc"
+              },
+              "timerange": {
+                "type": {
+                  "@type": "string",
+                  "@value": "relative"
+                },
+                "range": {
+                  "@type": "integer",
+                  "@value": 604800
+                }
+              },
+              "stacked_fields": {
+                "@type": "string",
+                "@value": ""
+              },
+              "data_table_limit": {
+                "@type": "integer",
+                "@value": 50
+              },
+              "field": {
+                "@type": "string",
+                "@value": "QType"
+              },
+              "show_data_table": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "limit": {
+                "@type": "integer",
+                "@value": 5
+              }
+            },
+            "position": {
+              "width": {
+                "@type": "integer",
+                "@value": 2
+              },
+              "height": {
+                "@type": "integer",
+                "@value": 6
+              },
+              "row": {
+                "@type": "integer",
+                "@value": 3
+              },
+              "col": {
+                "@type": "integer",
+                "@value": 5
+              }
+            }
+          },
+          {
+            "id": {
+              "@type": "string",
+              "@value": "d541aa7e-8bdd-4d4e-830b-18eb4b2aa555"
+            },
+            "description": {
+              "@type": "string",
+              "@value": "Total Requests By Server (7d)"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "QUICKVALUES"
+            },
+            "cache_time": {
+              "@type": "integer",
+              "@value": 10
+            },
+            "time_range": {
+              "type": {
+                "@type": "string",
+                "@value": "relative"
+              },
+              "range": {
+                "@type": "integer",
+                "@value": 604800
+              }
+            },
+            "configuration": {
+              "interval": {
+                "@type": "string",
+                "@value": "hour"
+              },
+              "query": {
+                "@type": "string",
+                "@value": "Context:PACKET"
+              },
+              "show_pie_chart": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "sort_order": {
+                "@type": "string",
+                "@value": "desc"
+              },
+              "timerange": {
+                "type": {
+                  "@type": "string",
+                  "@value": "relative"
+                },
+                "range": {
+                  "@type": "integer",
+                  "@value": 604800
+                }
+              },
+              "stacked_fields": {
+                "@type": "string",
+                "@value": ""
+              },
+              "data_table_limit": {
+                "@type": "integer",
+                "@value": 50
+              },
+              "field": {
+                "@type": "string",
+                "@value": "source"
+              },
+              "show_data_table": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "limit": {
+                "@type": "integer",
+                "@value": 5
+              }
+            },
+            "position": {
+              "width": {
+                "@type": "integer",
+                "@value": 4
+              },
+              "height": {
+                "@type": "integer",
+                "@value": 4
+              },
+              "row": {
+                "@type": "integer",
+                "@value": 5
+              },
+              "col": {
+                "@type": "integer",
+                "@value": 7
+              }
+            }
+          },
+          {
+            "id": {
+              "@type": "string",
+              "@value": "5050c058-e024-4661-9a2a-a32f3278f985"
+            },
+            "description": {
+              "@type": "string",
+              "@value": "Total Requests By IP (7d)"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "QUICKVALUES"
+            },
+            "cache_time": {
+              "@type": "integer",
+              "@value": 10
+            },
+            "time_range": {
+              "type": {
+                "@type": "string",
+                "@value": "relative"
+              },
+              "range": {
+                "@type": "integer",
+                "@value": 604800
+              }
+            },
+            "configuration": {
+              "interval": {
+                "@type": "string",
+                "@value": "hour"
+              },
+              "query": {
+                "@type": "string",
+                "@value": "Context:PACKET"
+              },
+              "show_pie_chart": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "sort_order": {
+                "@type": "string",
+                "@value": "desc"
+              },
+              "timerange": {
+                "type": {
+                  "@type": "string",
+                  "@value": "relative"
+                },
+                "range": {
+                  "@type": "integer",
+                  "@value": 604800
+                }
+              },
+              "stacked_fields": {
+                "@type": "string",
+                "@value": ""
+              },
+              "data_table_limit": {
+                "@type": "integer",
+                "@value": 50
+              },
+              "field": {
+                "@type": "string",
+                "@value": "IP"
+              },
+              "show_data_table": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "limit": {
+                "@type": "integer",
+                "@value": 5
+              }
+            },
+            "position": {
+              "width": {
+                "@type": "integer",
+                "@value": 2
+              },
+              "height": {
+                "@type": "integer",
+                "@value": 6
+              },
+              "row": {
+                "@type": "integer",
+                "@value": 3
+              },
+              "col": {
+                "@type": "integer",
+                "@value": 3
+              }
+            }
+          },
+          {
+            "id": {
+              "@type": "string",
+              "@value": "6bbbfc26-9f9f-4cac-9f22-4158b4c8c70a"
+            },
+            "description": {
+              "@type": "string",
+              "@value": "Total Requests By Name (7d)"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "QUICKVALUES"
+            },
+            "cache_time": {
+              "@type": "integer",
+              "@value": 10
+            },
+            "time_range": {
+              "type": {
+                "@type": "string",
+                "@value": "relative"
+              },
+              "range": {
+                "@type": "integer",
+                "@value": 604800
+              }
+            },
+            "configuration": {
+              "interval": {
+                "@type": "string",
+                "@value": "hour"
+              },
+              "query": {
+                "@type": "string",
+                "@value": "Context:PACKET"
+              },
+              "show_pie_chart": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "sort_order": {
+                "@type": "string",
+                "@value": "desc"
+              },
+              "timerange": {
+                "type": {
+                  "@type": "string",
+                  "@value": "relative"
+                },
+                "range": {
+                  "@type": "integer",
+                  "@value": 604800
+                }
+              },
+              "stacked_fields": {
+                "@type": "string",
+                "@value": ""
+              },
+              "data_table_limit": {
+                "@type": "integer",
+                "@value": 50
+              },
+              "field": {
+                "@type": "string",
+                "@value": "Name"
+              },
+              "show_data_table": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "limit": {
+                "@type": "integer",
+                "@value": 5
+              }
+            },
+            "position": {
+              "width": {
+                "@type": "integer",
+                "@value": 4
+              },
+              "height": {
+                "@type": "integer",
+                "@value": 4
+              },
+              "row": {
+                "@type": "integer",
+                "@value": 1
+              },
+              "col": {
+                "@type": "integer",
+                "@value": 7
+              }
+            }
+          },
+          {
+            "id": {
+              "@type": "string",
+              "@value": "d9995d90-6a41-4d7e-9a03-4bc025072de3"
+            },
+            "description": {
+              "@type": "string",
+              "@value": "Total DNS Requests (7d)"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "SEARCH_RESULT_CHART"
+            },
+            "cache_time": {
+              "@type": "integer",
+              "@value": 10
+            },
+            "time_range": {
+              "type": {
+                "@type": "string",
+                "@value": "relative"
+              },
+              "range": {
+                "@type": "integer",
+                "@value": 604800
+              }
+            },
+            "configuration": {
+              "interval": {
+                "@type": "string",
+                "@value": "hour"
+              },
+              "timerange": {
+                "type": {
+                  "@type": "string",
+                  "@value": "relative"
+                },
+                "range": {
+                  "@type": "integer",
+                  "@value": 604800
+                }
+              },
+              "query": {
+                "@type": "string",
+                "@value": "Context:PACKET"
+              }
+            },
+            "position": {
+              "width": {
+                "@type": "integer",
+                "@value": 6
+              },
+              "height": {
+                "@type": "integer",
+                "@value": 2
+              },
+              "row": {
+                "@type": "integer",
+                "@value": 1
+              },
+              "col": {
+                "@type": "integer",
+                "@value": 1
+              }
+            }
+          }
+        ]
       },
-      "col" : 3,
-      "row" : 2,
-      "cache_time" : 120
-    }, {
-      "description" : "Total Requests By Type",
-      "type" : "QUICKVALUES",
-      "configuration" : {
-        "timerange" : {
-          "type" : "relative",
-          "range" : 86400
-        },
-        "field" : "QType",
-        "show_pie_chart" : true,
-        "query" : "SourceModuleName:dns AND Context:PACKET",
-        "show_data_table" : true
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
       },
-      "col" : 2,
-      "row" : 2,
-      "cache_time" : 120
-    }, {
-      "description" : "Total Requests By Response",
-      "type" : "QUICKVALUES",
-      "configuration" : {
-        "timerange" : {
-          "type" : "relative",
-          "range" : 86400
-        },
-        "field" : "Response",
-        "show_pie_chart" : true,
-        "query" : "SourceModuleName:dns AND Context:PACKET",
-        "show_data_table" : true
+      "id": "38d110df-2ecd-477b-b279-bd29abc2e8f9",
+      "data": {
+        "name": "WINDNS_XID",
+        "pattern": "([a-z0-9]{4})"
       },
-      "col" : 1,
-      "row" : 2,
-      "cache_time" : 120
-    } ]
-  } ],
-  "grok_patterns" : [ {
-    "name" : "NOTSPACE",
-    "pattern" : "\\S+"
-  }, {
-    "name" : "WINDNS_TIME",
-    "pattern" : "((?:0?[1-9]|1[0-2])[\\/\\.-](?:(?:0[1-9])|(?:[12][0-9])|(?:3[01])|[1-9])[\\/\\.-](?>\\d\\d){1,2}\\s(?!<[0-9])(?:2[0123]|[01]?[0-9]):(?:[0-5][0-9]):(?:(?:[0-5]?[0-9]|60)(?:[:.,][0-9]+)?)\\s(A|P)M)|((?:(?:0[1-9])|(?:[12][0-9])|(?:3[01])|[1-9])[\\/\\.-](?:0?[1-9]|1[0-2])[\\/\\.-](?>\\d\\d){1,2}\\s(?!<[0-9])(?:2[0123]|[01]?[0-9]):(?:[0-5][0-9]):(?:(?:[0-5]?[0-9]|60)(?:[:.,][0-9]+)?)|((?>\\d\\d){1,2}[\\/\\.-](?:(?:0[1-9])|(?:[12][0-9])|(?:3[01])|[1-9])[\\/\\.-](?:0?[1-9]|1[0-2])\\s(?!<[0-9])(?:2[0123]|[01]?[0-9]):(?:[0-5][0-9]):(?:(?:[0-5]?[0-9]|60)(?:[:.,][0-9]+)?)))"
-  }, {
-    "name" : "WINDNS_IP",
-    "pattern" : "(?<![0-9])(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}))(?![0-9])|((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(%.+)?"
-  }, {
-    "name" : "WINDNS_PROTOCOL",
-    "pattern" : "(UDP|TCP)"
-  }, {
-    "name" : "WINDNS_FLAGSCHAR",
-    "pattern" : "(\\s+[A|T|D|R]{1,4}\\s+)|(\\s+[A|T|D|R]{1,4}\\s+[A|T|D|R]{1,4}\\s+)|(\\s+[A|T|D|R]{1,4}\\s+[A|T|D|R]{1,4}\\s+[A|T|D|R]{1,4}\\s+)|\\s+"
-  }, {
-    "name" : "WINDNS_RESPONSE",
-    "pattern" : "([A-Z]+)"
-  }, {
-    "name" : "WINDNS_QUERYRESP",
-    "pattern" : "(\\s+R\\s+|\\s+)"
-  }, {
-    "name" : "WINDNS_SNDRCV",
-    "pattern" : "(Snd|Rcv)"
-  }, {
-    "name" : "WINDNS_NAME",
-    "pattern" : "(?:\\s+.+|)"
-  }, {
-    "name" : "WINDNS_QTYPE",
-    "pattern" : "(?:\\s\\S+|)"
-  }, {
-    "name" : "WINDNS_OPCODE",
-    "pattern" : "([A-Z]{1})"
-  }, {
-    "name" : "WINDNS_FLAGSHEX",
-    "pattern" : "([0-9]+)"
-  }, {
-    "name" : "WINDNS_THREADID",
-    "pattern" : "[a-zA-Z0-9]{4}"
-  }, {
-    "name" : "BASE16NUM",
-    "pattern" : "(?<![0-9A-Fa-f])(?:[+-]?(?:0x)?(?:[0-9A-Fa-f]+))"
-  }, {
-    "name" : "WINDNS_XID",
-    "pattern" : "([a-z0-9]{4})"
-  } ]
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "de25224a-ae6b-4e2e-b99c-55c1a1dd3b80",
+      "data": {
+        "name": "WINDNS_THREADID",
+        "pattern": "[a-zA-Z0-9]{4}"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "874ba961-47f2-4cf4-9b66-a3fde2c7114c",
+      "data": {
+        "name": "WINDNS_FLAGSCHAR",
+        "pattern": "(\\s+[A|T|D|R]{1,4}\\s+)|(\\s+[A|T|D|R]{1,4}\\s+[A|T|D|R]{1,4}\\s+)|(\\s+[A|T|D|R]{1,4}\\s+[A|T|D|R]{1,4}\\s+[A|T|D|R]{1,4}\\s+)|\\s+"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "fcb1f819-4a03-4c77-9727-3f57915f6237",
+      "data": {
+        "name": "WINDNS_RESPONSE",
+        "pattern": "([A-Z]+)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "e1e06c96-5275-4377-a5ca-48a63cf7dcec",
+      "data": {
+        "name": "WINDNS_NAME",
+        "pattern": "(?:\\s+.+|)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "1ba21a73-48b9-4bc6-aa2c-a2df217a9842",
+      "data": {
+        "name": "WINDNS_IP",
+        "pattern": "(?<![0-9])(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}))(?![0-9])|((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(%.+)?"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "a3d71d65-a1fc-4693-b407-46e51f3a0e6f",
+      "data": {
+        "name": "WINDNS_QUERYRESP",
+        "pattern": "(\\s+R\\s+|\\s+)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "5093081c-c245-4eb3-99e9-d2adeda217d9",
+      "data": {
+        "name": "WINDNS_QTYPE",
+        "pattern": "(?:\\s\\S+|)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "426172e7-0f2f-4d16-b401-ab00e4015567",
+      "data": {
+        "name": "WINDNS_SNDRCV",
+        "pattern": "(Snd|Rcv)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "33637a01-30f2-49af-aca1-80656c909b33",
+      "data": {
+        "name": "WINDNS_FLAGSHEX",
+        "pattern": "([0-9]+)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "09f97c59-9628-44cc-b2b9-856dde261663",
+      "data": {
+        "name": "WINDNS_BASE16NUM",
+        "pattern": "(?<![0-9A-Fa-f])(?:[+-]?(?:0x)?(?:[0-9A-Fa-f]+))"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "d49a1534-640c-4024-913c-c0a908510829",
+      "data": {
+        "name": "WINDNS_TIME",
+        "pattern": "(?:0?[1-9]|1[0-2])[/-](?:(?:0[1-9])|(?:[12][0-9])|(?:3[01])|[1-9])[/-](?>\\d\\d){1,2}\\s(?!<[0-9])(?:2[0123]|[01]?[0-9]):(?:[0-5][0-9]):(?:(?:[0-5]?[0-9]|60)(?:[:.,][0-9]+)?)\\s(A|P)M"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "50fd7373-a652-4908-a9ae-2e06f48919ab",
+      "data": {
+        "name": "WINDNS_PROTOCOL",
+        "pattern": "(UDP|TCP)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.0+aa5175e"
+        }
+      ]
+    }
+  ]
 }
