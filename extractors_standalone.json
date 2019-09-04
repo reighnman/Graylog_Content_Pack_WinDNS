@@ -1,0 +1,35 @@
+{
+  "extractors": [
+    {
+      "title": "WinDNS_Name",
+      "extractor_type": "regex_replace",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "cut",
+      "source_field": "Name",
+      "target_field": "Name",
+      "extractor_config": {
+        "regex": "\\([0-9]+\\)",
+        "replacement": ".",
+        "replace_all": true
+      },
+      "condition_type": "regex",
+      "condition_value": "\\([0-9]+\\)"
+    },
+    {
+      "title": "WinDNS_Debug_Log",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "cut",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{WINDNS_TIME:Time} +%{WINDNS_THREADID:ThreadID} +%{WINDNS_NOTSPACE:Context} +%{WINDNS_BASE16NUM:InternalID} +%{WINDNS_PROTOCOL:Protocol} +%{WINDNS_SNDRCV:SndRcv} +%{WINDNS_IP:IP} +%{WINDNS_XID:XID}%{WINDNS_QUERYRESP:QueryResp}%{WINDNS_OPCODE:Opcode} +\\[%{WINDNS_FLAGSHEX:FlagsHex}%{WINDNS_FLAGSCHAR:FlagsChar}%{WINDNS_RESPONSE:Response}\\]%{WINDNS_QTYPE:QType}%{WINDNS_NAME:Name}"
+      },
+      "condition_type": "regex",
+      "condition_value": " PACKET\\s+[A-Z0-9]{16}\\s+UDP|TCP\\s"
+    }
+  ],
+  "version": "3.1.0"
+}
