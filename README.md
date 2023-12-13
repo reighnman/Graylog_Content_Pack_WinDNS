@@ -1,4 +1,4 @@
-# Windows DNS Content Pack
+# Windows DNS Content Pack (Outdated - Please Fork+Update)
 
 This version requires Graylog 3.1 minimum, check tags for previous versions.
 
